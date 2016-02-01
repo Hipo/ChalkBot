@@ -3,13 +3,14 @@ from PIL import ImageDraw, ImageFont
 
 
 class Simulator(object):
-    def __init__(self, plotter, skip_frames=100):
+    def __init__(self, plotter, skip_frames=100, output_directory='./'):
         self.plotter = plotter
         plotter.add_change_handler(self.update)
         self.font = ImageFont.truetype("arial.ttf", 20)
         self.line = []
         self.i = 0
         self.skip_frames = skip_frames
+        self.output_directory = output_directory
 
     def update(self):
         if self.plotter.pen.down:
@@ -30,7 +31,7 @@ class Simulator(object):
         draw.text((plotter.width - 100, 10), "%0.0f" % plotter.m2.string_length, font=self.font, fill=(0, 0, 0, 255))
         draw.line([(0, 0), (plotter.pen.x, plotter.pen.y)], fill=(0, 0, 0, 255), width=2)
         draw.line([(plotter.width, 0), (plotter.pen.x, plotter.pen.y)], fill=(0, 0, 0, 255), width=2)
-        image.save("/Users/fergal/Desktop/hipoplot/out%04.0f.png" % self.i, "PNG")
+        image.save("%s/frame%04.0f.png" % (self.output_directory, self.i), "PNG")
 
     def render_test(self, coords):
         plotter = self.plotter
@@ -38,4 +39,4 @@ class Simulator(object):
         draw = ImageDraw.Draw(image)
         draw.line(coords, fill=(255, 0, 0, 255), width=2)
         draw.rectangle([(plotter.margin[0], plotter.margin[1]), (plotter.width - plotter.margin[0], plotter.height - plotter.margin[1])], outline=(0, 0, 255, 255))
-        image.save("/Users/fergal/Desktop/hipoplot/test.png", "PNG")
+        image.save("%s/test.png" % self.output_directory, "PNG")
