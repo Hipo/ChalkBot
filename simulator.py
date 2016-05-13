@@ -1,4 +1,5 @@
 import sys
+import os
 
 from PIL import Image
 from PIL import ImageDraw, ImageFont
@@ -13,6 +14,10 @@ class Simulator(object):
         self.i = 0
         self.skip_frames = skip_frames
         self.output_directory = output_directory
+        try:
+            os.makedirs(output_directory)
+        except os.error:
+            pass
         self.height = 400
         self.scale_factor = self.height / float(plotter_height)
         self.width = int(plotter_width * self.scale_factor)
@@ -83,7 +88,7 @@ class Simulator(object):
 
 
 if __name__ == '__main__':
-    sim = Simulator(plotter_width=910, plotter_height=800, margin=(50, 100), skip_frames=10, output_directory='/Users/fergal/Desktop/hipoplot/')
+    sim = Simulator(plotter_width=910, plotter_height=800, margin=(50, 100), skip_frames=10, output_directory='output')
     sim.left_string_length, sim.right_string_length = 605, 605
     sim.step_size = 5
     sim.run(sys.stdin.readlines())
