@@ -17,8 +17,9 @@ def cmd(cmd):
 
 
 def main():
+    filename = sys.argv[1]
     raw_input("Ready?")
-    for line in open('commands'):
+    for line in open(filename):
         if line[0:2] == 'PD':
             raw_input("PEN DOWN")
         if line[0:2] == 'PU':
